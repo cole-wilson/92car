@@ -177,10 +177,10 @@ async function read_data_from_serial(port) {
 
 				if (last_three[0] == 10 && last_three[1] == 10 && last_three[2] == 10) {
 					serial_buffer = serial_buffer.slice(0, -4);
-					let ab = new Uint8Array(serial_buffer.slice(-(52 * 4)));
+					let ab = new Uint8Array(serial_buffer.slice(-(53 * 4)));
 					serial_buffer = [];
 
-					let data = toData(ab.buffer, 52, 0);
+					let data = toData(ab.buffer, 53, 0);
 					let objects = toObjects(data);
 
 					// console.log(objects[0]).write_millis;
@@ -316,13 +316,13 @@ function toObjects(rawdata) {
 		o.amb_air_temp = row[43];
 		o.brake1 = 5000*(((row[44]/5024.0)-0.1)/0.8);
 		o.brake2 = 5000*(((row[45]/5024.0)-0.1)/0.8);
-		o.rad_in = (((row[46]/5024)-0.5232)/(0.0084-0.5232))*(302+58)-58;
-		o.rad_out = (((row[47]/5024)-0.5232)/(0.0084-0.5232))*(302+58)-58;
+		o.rad_in = (((row[46]/5024)-0.5332)/(0.0084-0.5332))*(302+58)-58;
+		o.rad_out = (((row[47]/5024)-0.5332)/(0.0084-0.5332))*(302+58)-58;
 		o.steering = row[48]/ 1000;
 		o.thermo_1 = row[49]/ 1000;
 		o.thermo_2 = row[50]/ 1000;
 		o.thermo_3 = row[51]/ 1000;
-		o.thermo_4 = row[52]/ 1000;
+		o.thermo_4 = row[53]/ 1000;
 		out.push(o);
 	})
 	return out;
@@ -346,7 +346,7 @@ let hotline_opts = {
 			outlineWidth: 1
 		};
 function fromfile(databytes) {
-	let data = toData(databytes, 52, 0);
+	let data = toData(databytes, 53, 0);
 	let objects = toObjects(data);
 	console.log(objects)
 
@@ -645,7 +645,7 @@ function get_points(z_axis, w_min, w_max) {
 	// console.log(points);
 	return points;
 }
-//https://stackoverflow.com/questions/42623071/maximum-call-stack-size-exceeded-with-math-min-and-math-max#52613386
+//https://stackoverflow.com/questions/42623071/maximum-call-stack-size-exceeded-with-math-min-and-math-max#53613386
 const arrayMinMax = (arr) =>
   arr.reduce(([min, max], val) => [Math.min(min, val), Math.max(max, val)], [
     Number.POSITIVE_INFINITY,
